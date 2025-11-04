@@ -2,6 +2,7 @@ package academy.digitallab.store.product.controller;
 
 import academy.digitallab.store.product.entity.Product;
 import academy.digitallab.store.product.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import java.util.List;
 @RestController
 // mapeamos el recurso con su uri (hay que tener en consideración las recomendaciones de las URIs)
 @RequestMapping( value = "/products")
+//Constructores para hacer inyeccion de dependencias
+@AllArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+   // hacemos uso de inyecion de dependencias por constructor @AllArgsConstructor y final private ProductService ...
+   final  private ProductService productService;
 
     //Metodo GET
     @GetMapping

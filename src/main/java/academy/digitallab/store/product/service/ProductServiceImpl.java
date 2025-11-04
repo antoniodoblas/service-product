@@ -3,6 +3,7 @@ package academy.digitallab.store.product.service;
 import academy.digitallab.store.product.entity.Category;
 import academy.digitallab.store.product.entity.Product;
 import academy.digitallab.store.product.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    //importamos el repositorio JPA
-    @Autowired
-    private ProductRepository productRepository;
+    //importamos el repositorio JPA con inyeccion dependencias por constructor.
+    private final ProductRepository productRepository;
 
 
     @Override
