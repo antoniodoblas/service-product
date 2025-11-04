@@ -1,5 +1,6 @@
 package academy.digitallab.store.product.controller;
 
+import academy.digitallab.store.product.entity.Category;
 import academy.digitallab.store.product.entity.Product;
 import academy.digitallab.store.product.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //indica que implementamos un controlador servicio rest
@@ -24,13 +27,23 @@ public class ProductController {
     //Metodo GET
     @GetMapping
     //metodo que devuelve una lista de productos
-    public ResponseEntity<List<Product>> listProduct(){
-        List<Product> products = productService.listAllProduct();
-        if (products.isEmpty()){
-            // retornamos un 404 - sin elemmentos.
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<List<Product>> listProduct(@RequestParam(name="categoryId", required=false) Long categoriaId ){
+        List<Product> products = new ArrayList<>();
+        if (categoriaId == null){
+            products = productService.listAllProduct();
+            if (products.isEmpty()){
+                // retornamos un 404 - sin elemmentos.
+                return ResponseEntity.noContent().build();
+            }
+        }else{
+            products = productService.findByCategory(Category.builder().id(categoriaId).build());
+            if (products.isEmpty()){
+                // retornamos not found elementos de esa categoria.
+                return ResponseEntity.notFound().build();
+            }
         }
-        // retornamos un 200 y la lista de prodcutos.
+
+        // retornamos un 200 y la lista de productos.
         return ResponseEntity.ok(products);
     }
 
