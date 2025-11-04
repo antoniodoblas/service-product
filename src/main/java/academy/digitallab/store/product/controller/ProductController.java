@@ -4,12 +4,11 @@ import academy.digitallab.store.product.entity.Category;
 import academy.digitallab.store.product.entity.Product;
 import academy.digitallab.store.product.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,12 +49,24 @@ public class ProductController {
                 return ResponseEntity.notFound().build();
             }
         }
-
         // retornamos un 200 y la lista de productos.
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping (value="/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
+        Product product = productService.getProduct(id);
+        if (product == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(product);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product productCreate = productService.createProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productCreate);
+    }
+
 }
 
-/
-//importamos por autowired, luego probaré por constructur
