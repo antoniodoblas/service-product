@@ -22,6 +22,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductController {
    // hacemos uso de inyecion de dependencias por constructor @AllArgsConstructor y final private ProductService ...
+   /*
+    importamos la interfaz del servicio para hacer uso de el.
+            ¿Por qué se inyecta la interfaz y no la implementación?:
+    Principio de inversión de dependencias (SOLID): el controlador depende de una abstracción, no de una implementación concreta.
+    Facilita el testing: puedes sustituir fácilmente la implementación por un mock o stub.
+    Permite múltiples implementaciones: puedes tener varias clases que implementen la misma interfaz y elegir cuál usar.
+    Desacoplamiento: el controlador no necesita saber cómo está implementado el servicio, solo qué hace.
+    */
    final  private ProductService productService;
 
     //Metodo GET
@@ -49,12 +57,5 @@ public class ProductController {
 
 }
 
-/*
-    importamos la interfaz del servicio para hacer uso de el.
-        ¿Por qué se inyecta la interfaz y no la implementación?:
-            Principio de inversión de dependencias (SOLID): el controlador depende de una abstracción, no de una implementación concreta.
-            Facilita el testing: puedes sustituir fácilmente la implementación por un mock o stub.
-            Permite múltiples implementaciones: puedes tener varias clases que implementen la misma interfaz y elegir cuál usar.
-            Desacoplamiento: el controlador no necesita saber cómo está implementado el servicio, solo qué hace.
-   */
+/
 //importamos por autowired, luego probaré por constructur
