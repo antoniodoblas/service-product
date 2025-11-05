@@ -29,7 +29,7 @@ public class ProductController {
     Permite múltiples implementaciones: puedes tener varias clases que implementen la misma interfaz y elegir cuál usar.
     Desacoplamiento: el controlador no necesita saber cómo está implementado el servicio, solo qué hace.
     */
-   final  private ProductService productService;
+   final private ProductService productService;
 
     //Metodo GET
     @GetMapping
@@ -77,6 +77,24 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(productDB);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Product>deleteProduct(@PathVariable("id") Long id) {
+        Product productDelete = productService.deleteProduct(id);
+        if (productDelete == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(productDelete);
+    }
+
+    @PatchMapping(value="/{id}/stock")
+    public ResponseEntity<Product>incrementStockProduct(@PathVariable Long id, @RequestParam(name="quantity", required = true)  Double quantity){
+        Product product = productService.incrementStockProduct(id, quantity);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(product);
     }
 }
 
